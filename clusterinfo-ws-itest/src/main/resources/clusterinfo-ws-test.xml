@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="ClusterInfoWSBean" resourceRoot="${projectDir}" soapui-version="2.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="ProjectSettings@projectRoot">/home/ggear/opt/jboss/trunk/jboss-apps/jboss-clusterinfo/itest/src/main/resources</con:setting><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="TestRunner Path" value=""/>
+  <con:entry key="Domain" value=""/>
+  <con:entry key="WSS Password Type" value=""/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Host:Port" value=""/>
+  <con:entry key="Add Settings" value="false"/>
+  <con:entry key="Save Project" value="false"/>
+  <con:entry key="Root Folder" value=""/>
+  <con:entry key="Coverage Report" value="false"/>
+  <con:entry key="Export All" value="true"/>
+  <con:entry key="Enable UI" value="false"/>
+  <con:entry key="TestSuite" value="ClusterInfoWSBeanBinding TestSuite"/>
+  <con:entry key="Password" value=""/>
+  <con:entry key="TestCase" value="action TestCase"/>
+  <con:entry key="Endpoint" value=""/>
+  <con:entry key="Export JUnit Results" value="true"/>
+  <con:entry key="Print Report" value="true"/>
+  <con:entry key="Open Report" value="false"/>
+  <con:entry key="Username" value=""/>
+</xml-fragment>]]></con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ClusterInfoWSBeanBinding" type="wsdl" bindingName="{http://ws.clusterinfo.jboss.org/}ClusterInfoWSBeanBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/clusterinfo/ws/host?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/clusterinfo/ws/host?wsdl"><con:part><con:url>http://localhost:8080/clusterinfo/ws/host?wsdl</con:url><con:content><![CDATA[<definitions name="ClusterInfoWSBeanService" targetNamespace="http://ws.clusterinfo.jboss.org/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.clusterinfo.jboss.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <types>
+    <xs:schema targetNamespace="http://ws.clusterinfo.jboss.org/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="action" type="tns:action"/>
+      <xs:element name="actionResponse" type="tns:actionResponse"/>
+      <xs:complexType name="action">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="target" type="tns:target"/>
+          <xs:element minOccurs="0" name="mode" type="tns:mode"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="clusterinfoIds" type="tns:clusterInfoID"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="clusterInfoID">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="sessionID" type="xs:string"/>
+          <xs:element minOccurs="0" name="sessionStateTarget" type="tns:target"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="actionResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:clusterInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="clusterInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ID" type="tns:clusterInfoID"/>
+          <xs:element minOccurs="0" name="requestMode" type="tns:mode"/>
+          <xs:element minOccurs="0" name="serverBindAddress" type="xs:string"/>
+          <xs:element minOccurs="0" name="serverHost" type="xs:string"/>
+          <xs:element name="serverIsStandalone" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="serverName" type="xs:string"/>
+          <xs:element minOccurs="0" name="serverPartitionName" type="xs:string"/>
+          <xs:element minOccurs="0" name="serverVersion" type="xs:string"/>
+          <xs:element minOccurs="0" name="timestamp" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="target">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AllClusterState"/>
+          <xs:enumeration value="Request"/>
+          <xs:enumeration value="Session"/>
+          <xs:enumeration value="JNDILocal"/>
+          <xs:enumeration value="JNDIHighAvailability"/>
+          <xs:enumeration value="TreeCache"/>
+          <xs:enumeration value="POJOCache"/>
+          <xs:enumeration value="StatefulSessionEJB"/>
+          <xs:enumeration value="EntityEJBSync"/>
+          <xs:enumeration value="EntityEJBAsyncJMS"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="mode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Refresh"/>
+          <xs:enumeration value="Update"/>
+          <xs:enumeration value="Reset"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </types>
+  <message name="ClusterInfoWSBean_action">
+    <part element="tns:action" name="action"/>
+  </message>
+  <message name="ClusterInfoWSBean_actionResponse">
+    <part element="tns:actionResponse" name="actionResponse"/>
+  </message>
+  <portType name="ClusterInfoWSBean">
+    <operation name="action" parameterOrder="action">
+      <input message="tns:ClusterInfoWSBean_action"/>
+      <output message="tns:ClusterInfoWSBean_actionResponse"/>
+    </operation>
+  </portType>
+  <binding name="ClusterInfoWSBeanBinding" type="tns:ClusterInfoWSBean">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="action">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ClusterInfoWSBeanService">
+    <port binding="tns:ClusterInfoWSBeanBinding" name="ClusterInfoWSBeanPort">
+      <soap:address location="http://localhost:8080/clusterinfo/ws/host"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/clusterinfo/ws/host</con:endpoint><con:endpoint>http://127.0.0.1:8088/mockClusterInfoWSBeanBinding</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="action" bindingOperationName="action" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/clusterinfo/ws/host</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.clusterinfo.jboss.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ws:action>
+         <target>Request</target>
+         <mode>Refresh</mode>
+         <clusterinfoIds>
+            <sessionID>999</sessionID>
+            <sessionStateTarget>Session</sessionStateTarget>
+         </clusterinfoIds>
+      </ws:action>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ws.clusterinfo.jboss.org/ClusterInfoWSBean/actionRequest"/></con:call></con:operation></con:interface><con:testSuite name="ClusterInfoWSBeanBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="action TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="action"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClusterInfoWSBeanBinding</con:interface><con:operation>action</con:operation><con:request name="action"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/clusterinfo/ws/host</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.clusterinfo.jboss.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ws:action>
+         <target>Request</target>
+         <mode>Refresh</mode>
+         <clusterinfoIds>
+            <sessionID>999</sessionID>
+            <sessionStateTarget>Session</sessionStateTarget>
+         </clusterinfoIds>
+      </ws:action>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Fault Assertion"/><con:assertion type="SOAP Response"/><con:assertion type="XQuery Match"><con:configuration/></con:assertion><con:wsaConfig action="http://ws.clusterinfo.jboss.org/ClusterInfoWSBean/actionRequest" mustUnderstand="NONE" version="200508"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/></con:soapui-project>

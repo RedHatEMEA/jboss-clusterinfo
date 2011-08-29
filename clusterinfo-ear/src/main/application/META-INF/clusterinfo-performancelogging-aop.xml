@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:jboss:aop-beans:1.0 http://anonsvn.jboss.org/repos/jbossas/projects/kernel/trunk/aop-mc-int/src/main/resources/schema/aop-beans_1_0.xsd"
+	xmlns="urn:jboss:aop-beans:1.0">
+	<!--
+		<prepare expr="all(Pojo)" /> <interceptor
+		class="org.jboss.clusterinfo.aop.LoggingInterceptor" scope="PER_VM" />
+
+		<bind pointcut="execution(public java.lang.String
+		org.jboss.clusterinfo.api.ClusterInfoAPI->getGUID(..))">
+		<interceptor-ref name="org.jboss.clusterinfo.aop.LoggingInterceptor"
+		/> </bind>
+	-->
+</aop> 

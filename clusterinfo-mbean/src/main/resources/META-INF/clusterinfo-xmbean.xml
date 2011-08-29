@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.2//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_2.dtd">
+<mbean>
+	<description>JBoss Cluster Inforamtion MBean</description>
+	<class>org.jboss.clusterinfo.mbean.ClusterInfo</class>
+	<attribute access="read-write" getMethod="getTreeCacheMBeanServiceLocator"
+		setMethod="setTreeCacheMBeanServiceLocator">
+		<description>The JBoss Tree Cache service locator string to store
+			the session state</description>
+		<name>TreeCacheMBeanServiceLocator</name>
+		<type>java.lang.String</type>
+	</attribute>
+	<operation>
+		<description>Perform Cluster Information action</description>
+		<name>action</name>
+		<parameter>
+			<description>The Cluster state Target</description>
+			<name>Target</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<parameter>
+			<description>The Cluster state Mode</description>
+			<name>Mode</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<parameter>
+			<description>The Cluster state Request IDs, comma separated in ID_Target format</description>
+			<name>Request IDs</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>java.lang.String</return-type>
+	</operation>
+</mbean>

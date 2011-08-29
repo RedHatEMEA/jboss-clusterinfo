@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${project.parent.groupId}</groupId>
+	<artifactId>clusterinfo-ws</artifactId>
+	<packaging>war</packaging>
+	<name>ws</name>
+
+	<parent>
+		<groupId>org.jboss.poc.clusterinfo</groupId>
+		<artifactId>clusterinfo-build</artifactId>
+		<version>0.0.3</version>
+	</parent>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>ejb-api</artifactId>
+			<version>${jee.ejb}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>${jee.jpa}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jboss-enterprise.ap.jboss-as.server.all</groupId>
+			<artifactId>lib</artifactId>
+			<version>${jboss.eap}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jboss-enterprise.ap.jboss-as</groupId>
+			<artifactId>common</artifactId>
+			<version>${jboss.eap}</version>
+			<scope>provided</scope>
+		</dependency>		
+		<dependency>
+			<groupId>jboss-enterprise.ap.jboss-as</groupId>
+			<artifactId>client</artifactId>
+			<version>${jboss.eap}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jboss-enterprise.ap.jboss-as.server.all.deployers</groupId>
+			<artifactId>jboss-aop-jboss5_deployer</artifactId>
+			<version>${jboss.eap}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jboss-enterprise.ap.jboss-as.server.all.deployers</groupId>
+			<artifactId>ejb3_deployer</artifactId>
+			<version>${jboss.eap}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>clusterinfo-service</artifactId>
+			<type>ejb</type>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${project.parent.groupId}</groupId>
+	<artifactId>clusterinfo-web</artifactId>
+	<packaging>war</packaging>
+	<name>web</name>
+
+	<parent>
+		<groupId>org.jboss.poc.clusterinfo</groupId>
+		<artifactId>clusterinfo-build</artifactId>
+		<version>0.0.3</version>
+	</parent>
+
+	<dependencies>
+
+		<!--  Provided Deps -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${jee.servlet}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${jee.jsp}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jboss-enterprise.ap.jboss-as</groupId>
+			<artifactId>client</artifactId>
+			<version>${jboss.eap}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>clusterinfo-service</artifactId>
+			<type>ejb</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--  Bundled Deps -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jee.jstl}</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>${jee.jstl}</version>
+		</dependency>
+
+	</dependencies>
+
+</project>

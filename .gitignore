@@ -1,0 +1,4 @@
+.svn
+*.jar
+*.sha1
+clusterinfo-lib/*

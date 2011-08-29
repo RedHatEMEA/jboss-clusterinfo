@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+	version="3.0">
+	<enterprise-beans>
+		<!--
+			<message-driven> <ejb-name>ClusterMessage</ejb-name>
+			<ejb-class>org.jboss.clusterinfo.ejb.message.ClusterMessage</ejb-class>
+			<security-identity> <run-as> <role-name>ClusterInfoAdmin</role-name>
+			</run-as> </security-identity> </message-driven>
+		-->
+		<session>
+			<ejb-name>ClusterStatefulBean</ejb-name>
+			<ejb-class>org.jboss.clusterinfo.ejb.stateful.ClusterStatefulBean</ejb-class>
+		</session>
+	</enterprise-beans>
+	<!--
+		<assembly-descriptor> <security-role>
+		<role-name>ClusterInfoAdmin</role-name> </security-role>
+		<method-permission> <role-name>ClusterInfoAdmin</role-name> <method>
+		<ejb-name>ClusterBean</ejb-name> <method-name>*</method-name>
+		</method> </method-permission> </assembly-descriptor>
+	-->
+</ejb-jar>

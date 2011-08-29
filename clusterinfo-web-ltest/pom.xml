@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${project.parent.groupId}</groupId>
+	<artifactId>clusterinfo-web-ltest</artifactId>
+	<packaging>jar</packaging>
+	<name>web-ltest</name>
+
+	<parent>
+		<groupId>org.jboss.poc.clusterinfo</groupId>
+		<artifactId>clusterinfo-build</artifactId>
+		<version>0.0.3</version>
+	</parent>
+
+	<properties>
+		<maven.itest.skip>true</maven.itest.skip>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>integration-test-load</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+
+								<if>
+									<equals arg1="${maven.ltest-long.skip}" arg2="false" />
+									<then>
+										<property name="classpath" refid="maven.plugin.classpath" />
+										<mkdir dir="./target/logs" />
+
+										<!--  Continuous Tx -->
+										<java classname="net.grinder.Grinder" fork="true"
+											dir="src/main/resources">
+											<jvmarg value="-Dgrinder.script=loadtest.py" />
+											<jvmarg value="-Dgrinder.logDirectory=../../../target/logs" />
+											<jvmarg value="-Dgrinder.threads=25" />
+											<jvmarg value="-Dgrinder.runs=0" />
+											<arg value="grinder.properties" />
+											<classpath>
+												<pathelement path="${classpath}" />
+											</classpath>
+										</java>
+
+									</then>
+								</if>
+
+								<if>
+									<equals arg1="${maven.ltest-short.skip}" arg2="false" />
+									<then>
+										<property name="classpath" refid="maven.plugin.classpath" />
+										<mkdir dir="./target/logs" />
+
+										<!--  Warm up -->
+										<java classname="net.grinder.Grinder" fork="true"
+											dir="src/main/resources">
+											<jvmarg value="-Dgrinder.script=loadtest.py" />
+											<jvmarg value="-Dgrinder.logDirectory=../../../target/logs" />
+											<jvmarg value="-Dgrinder.threads=10" />
+											<jvmarg value="-Dgrinder.runs=1" />
+											<arg value="grinder.properties" />
+											<classpath>
+												<pathelement path="${classpath}" />
+											</classpath>
+										</java>
+										<exec executable="/bin/sleep">
+											<arg value="5" />
+										</exec>
+
+										<!--  40 Concurrent Txs -->
+										<java classname="net.grinder.Grinder" fork="true"
+											dir="src/main/resources">
+											<jvmarg value="-Dgrinder.script=loadtest.py" />
+											<jvmarg value="-Dgrinder.logDirectory=../../../target/logs" />
+											<jvmarg value="-Dgrinder.threads=40" />
+											<jvmarg value="-Dgrinder.runs=1" />
+											<arg value="grinder.properties" />
+											<classpath>
+												<pathelement path="${classpath}" />
+											</classpath>
+										</java>
+										<exec executable="/bin/bash">
+											<arg value="src/main/resources/processlogs.sh" />
+											<arg value="40" />
+										</exec>
+										<exec executable="/bin/sleep">
+											<arg value="5" />
+										</exec>
+
+
+										<!--  80 Concurrent Txs -->
+										<java classname="net.grinder.Grinder" fork="true"
+											dir="src/main/resources">
+											<jvmarg value="-Dgrinder.script=loadtest.py" />
+											<jvmarg value="-Dgrinder.logDirectory=../../../target/logs" />
+											<jvmarg value="-Dgrinder.threads=80" />
+											<jvmarg value="-Dgrinder.runs=1" />
+											<arg value="grinder.properties" />
+											<classpath>
+												<pathelement path="${classpath}" />
+											</classpath>
+										</java>
+										<exec executable="/bin/bash">
+											<arg value="src/main/resources/processlogs.sh" />
+											<arg value="80" />
+										</exec>
+										<exec executable="/bin/sleep">
+											<arg value="5" />
+										</exec>
+
+										<!--  120 Concurrent Txs -->
+										<java classname="net.grinder.Grinder" fork="true"
+											dir="src/main/resources">
+											<jvmarg value="-Dgrinder.script=loadtest.py" />
+											<jvmarg value="-Dgrinder.logDirectory=../../../target/logs" />
+											<jvmarg value="-Dgrinder.threads=120" />
+											<jvmarg value="-Dgrinder.runs=1" />
+											<arg value="grinder.properties" />
+											<classpath>
+												<pathelement path="${classpath}" />
+											</classpath>
+										</java>
+										<exec executable="/bin/bash">
+											<arg value="src/main/resources/processlogs.sh" />
+											<arg value="120" />
+										</exec>
+										<exec executable="/bin/sleep">
+											<arg value="5" />
+										</exec>
+
+										<!--  160 Concurrent Txs -->
+										<java classname="net.grinder.Grinder" fork="true"
+											dir="src/main/resources">
+											<jvmarg value="-Dgrinder.script=loadtest.py" />
+											<jvmarg value="-Dgrinder.logDirectory=../../../target/logs" />
+											<jvmarg value="-Dgrinder.threads=160" />
+											<jvmarg value="-Dgrinder.runs=1" />
+											<arg value="grinder.properties" />
+											<classpath>
+												<pathelement path="${classpath}" />
+											</classpath>
+										</java>
+										<exec executable="/bin/bash">
+											<arg value="src/main/resources/processlogs.sh" />
+											<arg value="160" />
+										</exec>
+										<exec executable="/bin/sleep">
+											<arg value="5" />
+										</exec>
+
+										<!--  200 Concurrent Txs -->
+										<java classname="net.grinder.Grinder" fork="true"
+											dir="src/main/resources">
+											<jvmarg value="-Dgrinder.script=loadtest.py" />
+											<jvmarg value="-Dgrinder.logDirectory=../../../target/logs" />
+											<jvmarg value="-Dgrinder.threads=200" />
+											<jvmarg value="-Dgrinder.runs=1" />
+											<arg value="grinder.properties" />
+											<classpath>
+												<pathelement path="${classpath}" />
+											</classpath>
+										</java>
+										<exec executable="/bin/bash">
+											<arg value="src/main/resources/processlogs.sh" />
+											<arg value="200" />
+										</exec>
+
+									</then>
+								</if>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

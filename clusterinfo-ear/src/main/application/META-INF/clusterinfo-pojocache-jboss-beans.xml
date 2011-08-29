@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:jboss:bean-deployer:2.0 http://anonsvn.jboss.org/repos/jbossas/projects/kernel/trunk/kernel/src/main/resources/schema/bean-deployer_2_0.xsd"
+	xmlns="urn:jboss:bean-deployer:2.0">
+	<bean name="CacheConfigPOJOCache" class="org.jboss.cache.config.Configuration">
+		<property name="clusterName">${jboss.partition.name:DefaultPartition}-clusterinfoPOJOCache
+		</property>
+		<property name="cacheMode">${application.cache.replication}</property>
+		<property name="isolationLevel">REPEATABLE_READ</property>
+		<property name="nodeLockingScheme">MVCC</property>
+		<property name="exposeManagementStatistics">true</property>
+		<property name="evictionConfig">
+			<inject bean="CacheConfigPOJOCacheEviction" />
+		</property>
+		<property name="cacheLoaderConfig">
+			<inject bean="CacheConfigPOJOCacheLoader" />
+		</property>
+		<!--  Cluster config ${application.clustered.close-comment}
+		<property name="multiplexerStack">${jboss.default.jgroups.stack:udp}</property>
+		<property name="runtimeConfig">
+			<inject bean="CacheConfigPOJOCacheClustering"/>
+		</property>
+		${application.clustered.open-comment} Cluster config -->
+	</bean>
+	<bean name="CacheConfigPOJOCacheEviction" class="org.jboss.cache.config.EvictionConfig">
+		<property name="wakeupInterval">5000</property>
+		<property name="defaultEvictionRegionConfig">
+			<inject bean="CacheConfigPOJOCacheEvictionRegion" />
+		</property>
+	</bean>
+	<bean name="CacheConfigPOJOCacheEvictionRegion" class="org.jboss.cache.config.EvictionRegionConfig">
+		<property name="regionName">/</property>
+		<property name="evictionAlgorithmConfig">
+			<inject bean="CacheConfigPOJOCacheEvictionAlgorithim" />
+		</property>
+	</bean>
+	<bean name="CacheConfigPOJOCacheEvictionAlgorithim" class="org.jboss.cache.eviction.NullEvictionAlgorithmConfig" />
+	<bean name="CacheConfigPOJOCacheLoader" class="org.jboss.cache.config.CacheLoaderConfig">
+		<property name="passivation">true</property>
+		<property name="shared">false</property>
+		<property name="individualCacheLoaderConfigs">
+			<list>
+				<inject bean="CacheConfigPOJOCacheFileLoader" />
+			</list>
+		</property>
+	</bean>
+	<bean name="CacheConfigPOJOCacheFileLoader" class="org.jboss.cache.loader.FileCacheLoaderConfig">
+		<property name="location">${jboss.server.data.dir}${/}clusterinfoPOJOCache
+		</property>
+		<property name="async">false</property>
+		<property name="fetchPersistentState">true</property>
+		<property name="purgeOnStartup">true</property>
+		<property name="ignoreModifications">false</property>
+		<property name="checkCharacterPortability">false</property>
+	</bean>
+	<!--  Cluster config ${application.clustered.close-comment}
+	<bean name="CacheConfigPOJOCacheClustering" class="org.jboss.cache.config.RuntimeConfig">
+		<property name="muxChannelFactory">
+			<inject bean="JChannelFactory" />
+		</property>
+	</bean>
+	${application.clustered.open-comment} Cluster config -->
+	<bean name="POJOCacheJmxWrapper" class="org.jboss.cache.pojo.jmx.PojoCacheJmxWrapper">
+		<annotation>@org.jboss.aop.microcontainer.aspects.jmx.JMX(name="jboss.cache:service=clusterinfoPOJOCache",exposedInterface=org.jboss.cache.pojo.jmx.PojoCacheJmxWrapperMBean.class,registerDirectly=true)</annotation>
+		<property name="configuration">
+			<inject bean="CacheConfigPOJOCache" />
+		</property>
+	</bean>
+</deployment>

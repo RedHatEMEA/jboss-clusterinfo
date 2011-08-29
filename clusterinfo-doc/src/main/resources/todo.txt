@@ -1,0 +1,31 @@
+-------------------------------------------------------------------------------
+- 
+- Issues
+-
+-------------------------------------------------------------------------------
+
+- Clean up Cache terminology - TreeCache -> Cache, POJO etc
+- Isolate JBoss Cache instances from each other, configure JGroups
+- Clean up JNDI and DB old records on reset, redeploy, session timeout via Quartz
+- Clean up exception Handling
+- Use jboss UID generator rather JDK
+- Change org.jboss to com.jboss packages
+- Enable security
+
+-------------------------------------------------------------------------------
+- 
+- Enhancements
+-
+-------------------------------------------------------------------------------
+
+- Add XML/Java code formatter as part of prepare phase
+- Extend to multiple interfaces (SEAM, JSF, Remote Client)
+- Extend coverage of JBoss services (mail, JAF, JSF, StAX, JTA Connectors, 
+  Web Services, WS Metadata, JACC, JAXR, JAX-WS, JAX-RPC, SAAJ)
+- Implement Security
+- Instrument with AOP, Audit logs, Performance
+- Refactor to multiple projects, strip out POJO, clean up, state management
+- Extend clusterinfo with more information
+- Automated unit tests and integration tests
+- Documentation
+- Reaper DB task to clean up DB

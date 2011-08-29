@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${project.parent.groupId}</groupId>
+	<artifactId>clusterinfo-ws-ltest</artifactId>
+	<packaging>jar</packaging>
+	<name>ws-ltest</name>
+
+	<parent>
+		<groupId>org.jboss.poc.clusterinfo</groupId>
+		<artifactId>clusterinfo-build</artifactId>
+		<version>0.0.3</version>
+	</parent>
+
+	<properties>
+		<maven.itest.skip>true</maven.itest.skip>
+	</properties>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>${maven.itest.skip}</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>eviware</groupId>
+				<artifactId>maven-soapui-plugin</artifactId>
+				<version>2.5.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>eviware.soapui</groupId>
+						<artifactId>log4j</artifactId>
+						<version>1.0.0</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<phase>integration-test</phase>
+						<id>soapui-tests</id>
+						<configuration>
+							<projectFile>${basedir}/src/main/resources/clusterinfo-ws-test.xml</projectFile>
+							<outputFolder>${basedir}/target/soapui</outputFolder>
+							<junitReport>true</junitReport>
+							<exportwAll>true</exportwAll>
+							<printReport>false</printReport>
+							<host>localhost:8080</host>
+							<skip>${maven.itest.skip}</skip>
+						</configuration>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<configuration>
+					<outputDirectory>target/site/soapui</outputDirectory>
+					<reportsDirectories>
+						<reportsDirectories>target/soapui/</reportsDirectories>
+					</reportsDirectories>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+</project>

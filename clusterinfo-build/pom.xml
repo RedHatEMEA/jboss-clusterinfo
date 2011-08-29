@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jboss.poc.clusterinfo</groupId>
+	<artifactId>clusterinfo-build</artifactId>
+	<packaging>pom</packaging>
+	<version>0.0.3</version>
+	<name>build</name>
+
+	<properties>
+
+		<!--
+			Default properties, can be overridden by profile and command line
+		-->
+		<maven.aop.skip>true</maven.aop.skip>
+		<environment.target>DEV</environment.target>
+		<application.name>clusterinfo</application.name>
+		<application.version.build>trunk</application.version.build>
+		<application.clustered>false</application.clustered>
+		<application.cache.replication>LOCAL</application.cache.replication>
+		<application.cache.buddy-replication>false</application.cache.buddy-replication>
+		<application.clustered.open-comment></application.clustered.open-comment>
+		<application.clustered.close-comment>disabled</application.clustered.close-comment>
+
+		<!--
+			Library versions
+		-->
+		<jee.servlet>2.4</jee.servlet>
+		<jee.ejb>3.0</jee.ejb>
+		<jee.jpa>1.0</jee.jpa>
+		<jee.jms>1.1</jee.jms>
+		<jee.jsp>2.0</jee.jsp>
+		<jee.jstl>1.1.2</jee.jstl>
+		<jboss.eap>5.0.1-1</jboss.eap>
+		<commons.beanutils>1.8.0</commons.beanutils>
+		<grinder>3.2</grinder>
+		<ant.ant-contrib>20020829</ant.ant-contrib>
+		<plugin.antrun>1.3</plugin.antrun>
+		<plugin.ear>2.3.1</plugin.ear>
+		<plugin.eclipse>2.7</plugin.eclipse>
+
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>env-dev</id>
+			<properties>
+				<environment.target>DEV</environment.target>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-test</id>
+			<properties>
+				<environment.target>TEST</environment.target>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-stage</id>
+			<properties>
+				<environment.target>STAGE</environment.target>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-prod</id>
+			<properties>
+				<environment.target>PROD</environment.target>
+			</properties>
+		</profile>
+		<profile>
+			<id>cluster</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>application.clustered</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<application.clustered>true</application.clustered>
+				<application.cache.replication>REPL_SYNC</application.cache.replication>
+				<application.clustered.open-comment><![CDATA[<!--]]></application.clustered.open-comment>
+				<application.clustered.close-comment><![CDATA[enabled -->]]></application.clustered.close-comment>
+			</properties>
+		</profile>
+		<profile>
+			<id>buddy</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>application.cache.buddy-replication</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<application.cache.buddy-replication>true</application.cache.buddy-replication>
+			</properties>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>repository.central</id>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>repository.jboss.org</id>
+			<url>http://repository.jboss.org/maven2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>enterprise</id>
+			<name>Enterprise Repository</name>
+			<url>http://caneland2.saleslab.fab.redhat.com:8081/nexus/content/repositories/thirdparty</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>eviwarePluginRepository</id>
+			<url>http://www.eviware.com/repository/maven2/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<distributionManagement>
+		<repository>
+			<id>release</id>
+			<name>Application Repository</name>
+			<url>http://caneland2.saleslab.fab.redhat.com:8081/nexus/content/repositories/thirdparty</url>
+		</repository>
+		<snapshotRepository>
+			<id>snaphots</id>
+			<name>Application Snashots</name>
+			<url>http://caneland2.saleslab.fab.redhat.com:8081/nexus/content/repositories/thirdparty</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>clusterinfo-service</artifactId>
+				<type>ejb</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>clusterinfo-web</artifactId>
+				<type>war</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>clusterinfo-ws</artifactId>
+				<type>war</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>clusterinfo-mbean</artifactId>
+				<type>sar</type>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+		<module>../clusterinfo-doc</module>
+		<module>../clusterinfo-filter</module>
+		<module>../clusterinfo-service</module>
+		<module>../clusterinfo-web</module>
+		<module>../clusterinfo-ws</module>
+		<module>../clusterinfo-mbean</module>
+		<module>../clusterinfo-ear</module>
+                <module>../clusterinfo-web-itest</module>
+                <module>../clusterinfo-web-ltest</module>
+                <module>../clusterinfo-ws-itest</module>
+                <module>../clusterinfo-ws-ltest</module>
+	</modules>
+	<scm>
+	</scm>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>${plugin.antrun}</version>
+					<dependencies>
+						<dependency>
+							<groupId>ant-contrib</groupId>
+							<artifactId>ant-contrib</artifactId>
+							<version>${ant.ant-contrib}</version>
+						</dependency>
+						<dependency>
+							<groupId>jboss-enterprise.ap.jboss-as</groupId>
+							<artifactId>client</artifactId>
+							<version>${jboss.eap}</version>
+							<scope>provided</scope>
+						</dependency>
+						<dependency>
+							<groupId>jboss-enterprise.ap.jboss-as.server.all.deployers
+							</groupId>
+							<artifactId>jboss-aop-jboss5_deployer</artifactId>
+							<version>${jboss.eap}</version>
+						</dependency>
+						<dependency>
+							<groupId>grinder</groupId>
+							<artifactId>grinder</artifactId>
+							<version>${grinder}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<artifactId>maven-ear-plugin</artifactId>
+					<version>${plugin.ear}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jboss-packaging-maven-plugin</artifactId>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>${plugin.eclipse}</version>
+				<configuration>
+					<addGroupIdToProjectName>false</addGroupIdToProjectName>
+					<downloadJavadocs>true</downloadJavadocs>
+					<downloadSources>true</downloadSources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>1.5</target>
+					<source>1.5</source>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<ejbVersion>3.0</ejbVersion>
+					<generateClient>false</generateClient>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<webResource>
+							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
+							<includes>
+								<include>*.xml</include>
+							</includes>
+							<targetPath>WEB-INF</targetPath>
+							<filtering>true</filtering>
+						</webResource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process-classes-aop</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+								<taskdef name="aopc" classname="org.jboss.aop.ant.AopC" />
+								<available file="${project.build.outputDirectory}"
+									type="dir" property="classes.exists" />
+								<if>
+									<equals arg1="${maven.aop.skip}" arg2="false" />
+									<then>
+										<if>
+											<equals arg1="${classes.exists}" arg2="true" />
+											<then>
+												<property name="compile_classpath" refid="maven.compile.classpath" />
+												<property name="plugin_classpath" refid="maven.plugin.classpath" />
+												<aopc verbose="false" compilerclasspath="${plugin_classpath}">
+													<classpath
+														path="${project.build.outputDirectory}:${compile_classpath}" />
+													<src path="${project.build.outputDirectory}" />
+													<aoppath path="../clusterinfo-ear/src/main/application/META-INF" />
+												</aopc>
+												<echo message="AOP Instrumented classes" />
+											</then>
+										</if>
+									</then>
+								</if>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<filters>
+			<filter>
+				../clusterinfo-filter/src/main/filters/filter-${environment.target}.properties
+			</filter>
+		</filters>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/application</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+	</build>
+
+</project>

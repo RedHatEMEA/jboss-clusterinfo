@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${project.parent.groupId}</groupId>
+	<artifactId>clusterinfo-ear</artifactId>
+	<packaging>ear</packaging>
+	<name>ear</name>
+
+	<parent>
+		<groupId>org.jboss.poc.clusterinfo</groupId>
+		<artifactId>clusterinfo-build</artifactId>
+		<version>0.0.3</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>clusterinfo-service</artifactId>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>clusterinfo-web</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>clusterinfo-ws</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>clusterinfo-mbean</artifactId>
+			<type>sar</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+					<modules>
+						<webModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>clusterinfo-web</artifactId>
+							<contextRoot>/clusterinfo-web</contextRoot>
+						</webModule>
+						<webModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>clusterinfo-ws</artifactId>
+							<contextRoot>/clusterinfo-ws</contextRoot>
+						</webModule>
+						<sarModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>clusterinfo-mbean</artifactId>
+						</sarModule>
+					</modules>
+					<version>5</version>
+					<resourcesDir>${project.build.outputDirectory}</resourcesDir>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

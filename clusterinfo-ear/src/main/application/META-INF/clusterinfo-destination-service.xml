@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server
+    PUBLIC "-//JBoss//DTD MBean Service 4.2//EN"
+    "http://www.jboss.org/j2ee/dtd/jboss-service_5_0.dtd">
+<server>
+	<mbean code="org.jboss.jms.server.destination.QueueService"
+		name="jboss.messaging.destination:service=Queue,name=clusterinfo"
+		xmbean-dd="xmdesc/Queue-xmbean.xml">
+		<depends optional-attribute-name="ServerPeer">
+			jboss.messaging:service=ServerPeer</depends>
+		<depends>jboss.messaging:service=PostOffice</depends>
+		<attribute name="JNDIName">queue/clusterinfo</attribute>
+		<attribute name="RedeliveryDelay">10000</attribute>
+		<attribute name="MaxDeliveryAttempts">3</attribute>
+		<!--
+			<attribute name="SecurityConfig"> <security> <role name="guest"
+			read="true" write="true" write="true" create="true" /> </security>
+			</attribute>
+		-->
+	</mbean>
+</server>
